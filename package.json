@@ -1,0 +1,81 @@
+{ "name":                          "casm-lang.plugin.vscode"
+, "displayName":                   "casm-vscode"
+, "description":                   "CASM Language Server Protocol Client Extension for VSCode Editor"
+, "author":                        "CASM Organisation (https://casm-lang.org)"
+, "publisher":                     "CASM Organisation (https://casm-lang.org)"
+, "version":                       "0.0.1"
+, "license":                       "GPL-3.0+"
+, "repository":
+  { "type":                        "git"
+  , "url":                         "https://github.com/casm-lang/casm-lang.plugin.vscode.git"
+  }
+, "bugs":
+  { "url":                         "https://github.com/casm-lang/casm"
+  }
+, "engines":
+  {
+      "vscode":                    "^1.8.0"
+  }
+, "devDependencies":
+  { "@types/node":                 "^6.0.40"
+  , "@types/mocha":                "^2.2.32"
+  , "typescript":                  "^2.0.3"
+  , "rimraf":                      "^2.6.1"
+  , "vscode":                      "^1.0.3"
+  , "mocha":                       "^2.3.3"
+  }
+, "dependencies":
+  { "vscode-languageclient":       "^2.6.3"
+  , "vscode-languageserver":       "^2.6.2"
+  }
+, "main":                          "./obj/src/extension"
+, "categories":
+  [ "Languages"
+  , "Linters"
+  , "Snippets"
+  ]
+, "activationEvents":
+  [ "onLanguage:plaintext"
+  , "onLanguage:casm"
+  , "onCommand:casm.language.mode"
+  ]
+, "contributes":
+  { "commands": 
+    [ { "command":                 "casm.language.mode"
+      , "title":                   "CASM Language Mode"
+      , "description":             "Activates CASM specification language support though the `casmd` tool."
+      }
+    ]
+  , "configuration":
+    { "type":                      "object"
+    , "title":                     "casmd process configuration"
+    , "properties":
+      { "casmd.path":
+        { "type":                  "string"
+        , "default":               "casmd"
+        , "description":           "path to 'casmd' executable, e.g.: /usr/bin/casmd"
+        }
+      , "casmd.arguments":
+        { "type":                  "array"
+        , "items":
+          { "type":                "string"
+          }
+        , "default": 
+          [ "lsp"
+          , "--stdio"
+          ]
+        , "description":           "arguments for casmd executable"
+        }
+      }
+    }
+  }
+, "scripts":
+  { "compile":                     "node ./node_modules/vscode/bin/compile -watch -p ./"
+  , "build":                       "npm run compile"
+  , "clean":                       "node ./node_modules/.bin/rimraf ./obj"
+  , "clean-all":                   "npm run clean && ./node_modules/.bin/rimraf ./node_modules"
+  , "postinstall":                 "node ./node_modules/vscode/bin/install"
+  , "test":                        "node ./node_modules/vscode/bin/test"
+  , "vscode:prepublish":           "node ./node_modules/vscode/bin/compile"
+  }    
+}
