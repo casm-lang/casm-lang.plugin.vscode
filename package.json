@@ -21,7 +21,7 @@
   , "@types/mocha":                "^2.2.32"
   , "typescript":                  "^2.0.3"
   , "rimraf":                      "^2.6.1"
-  , "vscode":                      "^1.0.3"
+  , "vscode":                      "^1.0.0"
   , "mocha":                       "^2.3.3"
   }
 , "dependencies":
@@ -70,12 +70,12 @@
     }
   }
 , "scripts":
-  { "compile":                     "node ./node_modules/vscode/bin/compile -watch -p ./"
+  { "compile":                     "tsc -watch -p ./"
   , "build":                       "npm run compile"
   , "clean":                       "node ./node_modules/.bin/rimraf ./obj"
   , "clean-all":                   "npm run clean && ./node_modules/.bin/rimraf ./node_modules"
   , "postinstall":                 "node ./node_modules/vscode/bin/install"
   , "test":                        "node ./node_modules/vscode/bin/test"
-  , "vscode:prepublish":           "node ./node_modules/vscode/bin/compile"
+  , "vscode:prepublish":           "tsc -p ./"
   }    
 }
