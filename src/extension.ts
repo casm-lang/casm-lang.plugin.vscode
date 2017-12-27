@@ -27,6 +27,9 @@
 
 
 
+// https://code.visualstudio.com/docs/extensions/example-language-server
+// https://code.visualstudio.com/docs/extensions/publish-extension#_publishing-extensions
+// https://github.com/jonathandturner/rls_vscode
 
 
 import * as path from 'path';
