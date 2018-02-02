@@ -20,6 +20,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with casm-lang.plugin.vscode. If not, see <http://www.gnu.org/licenses/>.
 #
+#   Based on https://github.com/vscode-extension-samples/lsp-sample project:
 #   Copyright (c) Microsoft Corporation. All rights reserved.
 #   Licensed under the MIT License. See License.txt in the project root for license information.
 #

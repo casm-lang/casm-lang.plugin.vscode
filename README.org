@@ -20,6 +20,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with casm-lang.plugin.vscode. If not, see <http://www.gnu.org/licenses/>.
 # 
+#   Based on https://github.com/vscode-extension-samples/lsp-sample project:
 #   Copyright (c) Microsoft Corporation. All rights reserved.
 #   Licensed under the MIT License. See License.txt in the project root for license information.
 # 
@@ -32,16 +33,6 @@ CASM language extension integration for the language client [[https://github.com
 The vscode extension/plugin calls directly a =casmd= language server process and 
 communicates through the stdin/stdout stream with the application
 where the [[https://github.com/Microsoft/language-server-protocol][language server protocol]] (LSP) is implemented.
-
-Based on  
-https://github.com/llvm-mirror/clang-tools-extra
-revision 96c47487d46eb6f1ddb97f6cf27eef754f5a5f09
-and information from 
-https://code.visualstudio.com/docs/extensions/example-language-server
-https://code.visualstudio.com/docs/extensions/publish-extension#_publishing-extensions
-https://github.com/jonathandturner/rls_vscode
-.
-
 
 ** Installation
 
@@ -90,6 +81,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with casm-lang.plugin.vscode. If not, see <http://www.gnu.org/licenses/>.
 
+Based on https://github.com/vscode-extension-samples/lsp-sample project:
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT License. See License.txt in the project root for license information.
 
