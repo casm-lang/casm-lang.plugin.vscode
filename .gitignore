@@ -1,3 +1,5 @@
+/.attic
+/.vscode-test
 /obj
 /node_modules
 /npm-debug.log
