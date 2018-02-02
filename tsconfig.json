@@ -4,13 +4,7 @@
   , "outDir":                     "obj"
   , "lib":
     [ "es6"
-    , "es2015.core"
-    , "es2015.collection"
-    , "es2015.generator"
-    , "es2015.iterable"
-    , "es2015.promise"
-    , "es2015.symbol"
-    , "es2016.array.include"
+    , "es2016"
     ]
   , "rootDir":                    "."
   , "sourceMap":                  true
@@ -23,6 +17,5 @@
   }
 , "exclude":
   [ "node_modules"
-  , ".vscode-test"
   ]
 }

@@ -20,37 +20,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with casm-lang.plugin.vscode. If not, see <http://www.gnu.org/licenses/>.
 //
+//  Based on https://github.com/vscode-extension-samples/lsp-sample project:
 //  Copyright (c) Microsoft Corporation. All rights reserved.
 //  Licensed under the MIT License. See License.txt in the project root for license information.
 //
 
+'use strict';
 
-
-// https://code.visualstudio.com/docs/extensions/example-language-server
-// https://code.visualstudio.com/docs/extensions/publish-extension#_publishing-extensions
-// https://github.com/jonathandturner/rls_vscode
-
-
-import * as path from 'path';
-import * as process from 'child_process';
 import * as vscode from 'vscode';
 import * as vscodelc from 'vscode-languageclient';
 
-/**
- * Method to get workspace configuration option
- * @param option name of the option (e.g. for casmd.path should be path)
- * @param defaultValue default value to return if option is not set
- */
-
-function getConfig<T>(option: string, defaultValue?: any) : T {
-    let config = vscode.workspace.getConfiguration('casmd');
-    return config.get<T>(option, defaultValue);
+function getConfig< T >( option: string, defaultValue?: any ) : T
+{
+    let config = vscode.workspace.getConfiguration( 'casmd' );
+    return config.get< T >( option, defaultValue );
 }
-
-/**
- *  this method is called when your extension is activate
- *  your extension is activated the very first time the command is executed
- */
 
 export function activate( context: vscode.ExtensionContext )
 {
@@ -63,96 +47,35 @@ export function activate( context: vscode.ExtensionContext )
     
     context.subscriptions.push( casm_mode );
 
-    
-    let casmdPath = getConfig<string>( 'path' );
-    let casmdArgs = getConfig<string[]>( 'arguments' );
-    let casmdOpts = [ '' ];
+    let casmdPath = getConfig< string >( 'path' );
+    let casmdArgs = getConfig< string[] >( 'arguments' );
 
-    let serverOptions = () => new Promise< process.ChildProcess >
-    ( ( resolve
-      , reject
-      ) =>
-      {
-	      function spawnServer( ...args: string[] ): process.ChildProcess 
-          {
-              let childProcess = process.spawn
-              ( casmdPath
-              , casmdArgs 
-              );
+    let serverOptions: vscodelc.ServerOptions =
+    { command: casmdPath
+    , args: casmdArgs
+    };
 
-              childProcess.stderr.on
-              ( 'data', data => 
-                {
-				    console.warn( casmdPath + ': ' + data.toString() );
-			    }
-              );
+    let clientOptions: vscodelc.LanguageClientOptions =
+    { documentSelector : [ 'casm' ]
+    , synchronize: {
+        configurationSection: 'casmd',
+        fileEvents: vscode.workspace.createFileSystemWatcher( '**/.casm' )
+      }
+    };
 
-              childProcess.stdout.on
-              ( 'data', data => 
-                {
-				    console.log( casmdPath + ': ' + data.toString() );
-			    }
-              );
-
-    		  childProcess.on
-              ( 'error', error => 
-                {
-                    let regex = /ENOENT/gi;
-                    if( error.message.search( regex ) != -1 ) 
-                    {
-                        vscode.window.setStatusBarMessage
-                        ( "CASM: error: could not spawn process '" + casmdPath + "'" 
-                        );
-                    
-                        console.error( error.message );
-	    			    console.error
-                        ( "Unable to execute '" 
-                        + casmdPath 
-                        + "' command. "
-                        + "CASM language server is either not installed or not in the execution PATH."
-                        );
-                    }    
-                    else
-                    {
-                        throw error;
-                    }
-                }
-              );
-              
-              return childProcess; // Uses stdin/stdout for communication
-          }
-
-        //   try 
-        //   {
-              let casmdProcess = spawnServer();
-              resolve( casmdProcess );
-        //   }
-        //   catch( error ) 
-        //   {
-        //       console.error( error );
-        //   }
-	  }
-    );
-
-	let clientOptions: vscodelc.LanguageClientOptions = 
-    { documentSelector: 
-      [ 'plaintext'
-      , 'casm'
-      ]
-    , synchronize: 
-      { configurationSection: 'casmLanguageClient'
-      , fileEvents: vscode.workspace.createFileSystemWatcher( '**/*.casm' )
-	  }
-	}
-
-    var casmLanguageClient = new vscodelc.LanguageClient
-    ( 'casmLanguageClient'
-    , 'CASM Language Server Protocol Client'
+    let casmdClient = new vscodelc.LanguageClient
+    ( 'casmd'
+    , 'CASM Language Server'
     , serverOptions
     , clientOptions
-    ).start();
+    );
 
-    context.subscriptions.push( casmLanguageClient );
+    casmdClient.onReady().then
+    (() =>
+    {
+      console.log( 'CASM Language Server is ready!' );
+    });
 
-    vscode.window.showInformationMessage( 'CASM Language Mode' );
+    console.log( 'CASM Language Server starting!' );
+    casmdClient.start();
 }

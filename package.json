@@ -1,81 +1,101 @@
-{ "name":                          "casm-lang.plugin.vscode"
-, "displayName":                   "casm-vscode"
-, "description":                   "CASM Language Server Protocol Client Extension for VSCode Editor"
-, "author":                        "CASM Organisation (https://casm-lang.org)"
-, "publisher":                     "CASM Organisation (https://casm-lang.org)"
-, "version":                       "0.0.1"
-, "license":                       "GPL-3.0+"
-, "repository":
-  { "type":                        "git"
-  , "url":                         "https://github.com/casm-lang/casm-lang.plugin.vscode.git"
-  }
-, "bugs":
-  { "url":                         "https://github.com/casm-lang/casm"
-  }
-, "engines":
-  {
-      "vscode":                    "^1.8.0"
-  }
-, "devDependencies":
-  { "@types/node":                 "^6.0.40"
-  , "@types/mocha":                "^2.2.32"
-  , "typescript":                  "^2.0.3"
-  , "rimraf":                      "^2.6.1"
-  , "vscode":                      "^1.0.0"
-  , "mocha":                       "^2.3.3"
-  }
-, "dependencies":
-  { "vscode-languageclient":       "^2.6.3"
-  , "vscode-languageserver":       "^2.6.2"
-  }
-, "main":                          "./obj/src/extension"
-, "categories":
-  [ "Languages"
-  , "Linters"
-  , "Snippets"
-  ]
-, "activationEvents":
-  [ "onLanguage:plaintext"
-  , "onLanguage:casm"
-  , "onCommand:casm.language.mode"
-  ]
-, "contributes":
-  { "commands": 
-    [ { "command":                 "casm.language.mode"
-      , "title":                   "CASM Language Mode"
-      , "description":             "Activates CASM specification language support though the `casmd` tool."
+{
+  "name": "casm-lang.plugin.vscode",
+  "displayName": "CASM",
+  "description": "CASM language support. A VSCode client extension for the CASM LSP Server (casmd), build by the CASM Organisation.",
+  "author": "CASM Organisation (https://casm-lang.org)",
+  "publisher": "casm-lang",
+  "version": "0.0.1",
+  "license": "GPL-3.0+",
+  "icon": "etc/language-icon.png",
+  "galleryBanner": {
+    "color": "#336356",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/casm-lang/casm-lang.plugin.vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/casm-lang/casm"
+  },
+  "engines": {
+    "vscode": "^1.16.0"
+  },
+  "dependencies": {
+    "vscode": "^1.1.5",
+    "vscode-languageclient": "^3.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.40",
+    "@types/mocha": "^2.2.32",
+    "typescript": "^2.0.3",
+    "rimraf": "^2.6.1",
+    "mocha": "^2.3.3"
+  },
+  "main": "./obj/src/extension",
+  "categories": [
+    "Languages"
+  ],
+  "keywords": [
+    "casm",
+    "casm-lang"
+  ],
+  "preview": true,
+  "activationEvents": [
+    "onLanguage:casm",
+    "onCommand:casm.language.mode"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "casm",
+        "aliases": [ "CASM", "casm", "casm-lang" ],
+        "extensions": [ ".casm" ],
+        "configuration": "./etc/language-configuration.json"
       }
-    ]
-  , "configuration":
-    { "type":                      "object"
-    , "title":                     "casmd process configuration"
-    , "properties":
-      { "casmd.path":
-        { "type":                  "string"
-        , "default":               "casmd"
-        , "description":           "path to 'casmd' executable, e.g.: /usr/bin/casmd"
-        }
-      , "casmd.arguments":
-        { "type":                  "array"
-        , "items":
-          { "type":                "string"
-          }
-        , "default": 
-          [ "lsp"
-          , "--stdio"
-          ]
-        , "description":           "arguments for casmd executable"
+    ],
+    "snippets": [
+      {
+        "language": "casm",
+        "path": "./etc/language-snippets.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "casm.language.mode",
+        "title": "CASM Language Mode",
+        "description": "Activates CASM specification language support though the `casmd` tool.",
+        "category": "CASM"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "casmd process configuration",
+      "properties": {
+        "casmd.path": {
+          "type": "string",
+          "default": "casmd",
+          "description": "path to 'casmd' executable, e.g.: /usr/bin/casmd"
+        },
+        "casmd.arguments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "lsp",
+            "--stdio"
+          ],
+          "description": "arguments for casmd executable"
         }
       }
     }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "update-vscode": "node ./node_modules/vscode/bin/install",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "vscode:prepublish": "tsc -p ./"
   }
-, "scripts":
-  { "compile":                     "tsc -watch -p ./"
-  , "build":                       "npm run compile"
-  , "clean":                       "node ./node_modules/.bin/rimraf ./obj"
-  , "clean-all":                   "npm run clean && ./node_modules/.bin/rimraf ./node_modules"
-  , "postinstall":                 "node ./node_modules/vscode/bin/install"
-  , "test":                        "node ./node_modules/vscode/bin/test"
-  , "vscode:prepublish":           "tsc -p ./"
-  }    
 }

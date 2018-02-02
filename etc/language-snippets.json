@@ -1,0 +1,10 @@
+{
+    "forall": {
+        "prefix": "forall",
+        "body": [
+            "forall $1 in $2 do",
+            "\t$0"
+        ],
+        "description": "Insert 'forall' rule"
+    }
+}
