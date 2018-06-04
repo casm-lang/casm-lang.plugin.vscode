@@ -22,15 +22,15 @@
     "vscode": "^1.16.0"
   },
   "dependencies": {
-    "vscode": "^1.1.5",
-    "vscode-languageclient": "^3.4.2"
+    "vscode": "^1.1.13",
+    "vscode-languageclient": "^3.5.1"
   },
   "devDependencies": {
-    "@types/node": "^6.0.40",
     "@types/mocha": "^2.2.32",
-    "typescript": "^2.0.3",
+    "@types/node": "^6.0.102",
+    "mocha": "^2.3.3",
     "rimraf": "^2.6.1",
-    "mocha": "^2.3.3"
+    "typescript": "^2.7.2"
   },
   "main": "./obj/src/extension",
   "categories": [
@@ -49,8 +49,14 @@
     "languages": [
       {
         "id": "casm",
-        "aliases": [ "CASM", "casm", "casm-lang" ],
-        "extensions": [ ".casm" ],
+        "aliases": [
+          "CASM",
+          "casm",
+          "casm-lang"
+        ],
+        "extensions": [
+          ".casm"
+        ],
         "configuration": "./etc/language-configuration.json"
       }
     ],

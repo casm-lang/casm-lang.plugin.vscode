@@ -29,12 +29,15 @@
 
 import * as vscode from 'vscode';
 import * as vscodelc from 'vscode-languageclient';
+import { LanguageClient } from 'vscode-languageclient';
 
 function getConfig< T >( option: string, defaultValue?: any ) : T
 {
     let config = vscode.workspace.getConfiguration( 'casmd' );
     return config.get< T >( option, defaultValue );
 }
+
+let casmdClient : LanguageClient;
 
 export function activate( context: vscode.ExtensionContext )
 {
@@ -63,7 +66,7 @@ export function activate( context: vscode.ExtensionContext )
       }
     };
 
-    let casmdClient = new vscodelc.LanguageClient
+    casmdClient = new vscodelc.LanguageClient
     ( 'casmd'
     , 'CASM Language Server'
     , serverOptions
@@ -78,4 +81,5 @@ export function activate( context: vscode.ExtensionContext )
 
     console.log( 'CASM Language Server starting!' );
     casmdClient.start();
+
 }
