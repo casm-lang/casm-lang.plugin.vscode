@@ -1,10 +1,10 @@
 {
   "name": "casm-lang.plugin.vscode",
   "displayName": "CASM",
-  "description": "CASM language support. A VSCode client extension for the CASM LSP Server (casmd), build by the CASM Organisation.",
-  "author": "CASM Organisation (https://casm-lang.org)",
+  "description": "CASM language support. A VSCode client extension for the CASM LSP Server (casmd), build by the CASM Organization.",
+  "author": "CASM Organization (https://casm-lang.org)",
   "publisher": "casm-lang",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "GPL-3.0+",
   "icon": "etc/language-icon.png",
   "galleryBanner": {
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.102",
-    "mocha": "^2.3.3",
+    "mocha": "^5.2.0",
     "rimraf": "^2.6.1",
     "typescript": "^2.7.2"
   },
