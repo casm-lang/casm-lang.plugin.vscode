@@ -29,7 +29,6 @@
 
 import * as vscode from 'vscode';
 import * as vscodelc from 'vscode-languageclient';
-import { LanguageClient } from 'vscode-languageclient';
 
 function getConfig< T >( option: string, defaultValue?: any ) : T
 {
@@ -37,7 +36,11 @@ function getConfig< T >( option: string, defaultValue?: any ) : T
     return config.get< T >( option, defaultValue );
 }
 
-let casmdClient : LanguageClient;
+let casmdClient : vscodelc.LanguageClient;
+let casmdPath = getConfig< string >( 'path' );
+let casmdArgs = getConfig< string[] >( 'arguments' );
+
+// let delay = (time : any) => (result : any) => new Promise(resolve => setTimeout(() => resolve(result), time));
 
 export function activate( context: vscode.ExtensionContext )
 {
@@ -47,11 +50,8 @@ export function activate( context: vscode.ExtensionContext )
         vscode.window.showInformationMessage( 'CASM: triggered language mode to load' );
       }
     );
-    
-    context.subscriptions.push( casm_mode );
 
-    let casmdPath = getConfig< string >( 'path' );
-    let casmdArgs = getConfig< string[] >( 'arguments' );
+    context.subscriptions.push( casm_mode );
 
     let serverOptions: vscodelc.ServerOptions =
     { command: casmdPath
@@ -62,13 +62,13 @@ export function activate( context: vscode.ExtensionContext )
     { documentSelector : [ 'casm' ]
     , synchronize: {
         configurationSection: 'casmd',
-        fileEvents: vscode.workspace.createFileSystemWatcher( '**/.casm' )
+        fileEvents: vscode.workspace.createFileSystemWatcher( '**/*.casm' )
       }
     };
 
     casmdClient = new vscodelc.LanguageClient
     ( 'casmd'
-    , 'CASM Language Server'
+    , 'CASM Language Server Daemon'
     , serverOptions
     , clientOptions
     );
@@ -76,10 +76,9 @@ export function activate( context: vscode.ExtensionContext )
     casmdClient.onReady().then
     (() =>
     {
-      console.log( 'CASM Language Server is ready!' );
+      console.log( 'CASM Language Server Daemon: ready' );
     });
 
-    console.log( 'CASM Language Server starting!' );
-    casmdClient.start();
-
+    console.log( 'CASM Language Server Daemon: starting' );
+    context.subscriptions.push( casmdClient.start() );
 }
